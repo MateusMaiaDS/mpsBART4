@@ -112,14 +112,14 @@ mpsbart <- function(x_train,
              B_train_obj <- splines::spline.des(x = x_train_scale[,continuous_vars[i], drop = FALSE],
                                                 knots = new_knots[,continuous_vars[i]],
                                                 ord = 4,
-                                                derivs = 0*x_train_scale[,continuous_vars[i], drop = FALSE])$design
+                                                derivs = 0*x_train_scale[,continuous_vars[i], drop = FALSE],outer.ok = FALSE)$design
 
              B_train_arr[,,i] <- as.matrix(B_train_obj)
              # B_test_arr[,,i] <- as.matrix(predict(B_train_obj,newx = x_test_scale[,continuous_vars[i], drop = FALSE]))
              B_test_arr[,,i] <- splines::spline.des(x = x_test_scale[,continuous_vars[i], drop = FALSE],
                                                     knots = new_knots[,continuous_vars[i]],
                                                     ord = 4,
-                                                    derivs = 0*x_test_scale[,continuous_vars[i], drop = FALSE])$design
+                                                    derivs = 0*x_test_scale[,continuous_vars[i], drop = FALSE],outer.ok = TRUE)$design
 
      }
 
