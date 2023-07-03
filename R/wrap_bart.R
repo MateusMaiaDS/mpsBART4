@@ -102,7 +102,7 @@ mpsbart <- function(x_train,
 
      # New_knots
      new_knots <- matrix()
-     new_knots <- mapply(min_x,max_x, FUN = function(MIN,MAX){seq(MIN-3*MIN/ndx,MAX+3*MAX/ndx, by = (MAX-MIN)/ndx})
+     new_knots <- mapply(min_x,max_x, FUN = function(MIN,MAX){seq(MIN-3*MIN/ndx,MAX+3*MAX/ndx, by = (MAX-MIN)/ndx)})
 
      # Creating the natural B-spline for each predictor
      for(i in 1:length(continuous_vars)){
