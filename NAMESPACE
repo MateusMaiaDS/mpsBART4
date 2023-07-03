@@ -3,3 +3,5 @@
 export(k_fold)
 export(mpsbart)
 export(spatial_k_fold)
+importFrom(Rcpp,sourceCpp)
+useDynLib(mpsBART4)

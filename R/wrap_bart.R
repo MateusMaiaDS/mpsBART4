@@ -1,3 +1,7 @@
+## GP-Bart
+#' @useDynLib mpsBART4
+#' @importFrom Rcpp sourceCpp
+#'
 # Getting the BART wrapped function
 #' @export
 mpsbart <- function(x_train,
@@ -88,12 +92,12 @@ mpsbart <- function(x_train,
 
      B_train_arr <- array(data = NA,
                           dim = c(nrow(x_train_scale),
-                                  nrow(knots)+3, # +3 here because is a natural spline
+                                  nrow(knots), # +3 here because is a natural spline
                                   ncol(x_train_scale[,continuous_vars, drop = FALSE])))
 
      B_test_arr <- array(data = NA,
                           dim = c(nrow(x_test_scale),
-                                  nrow(knots)+3,  # +3 here because is a natural spline
+                                  nrow(knots),  # +3 here because is a natural spline
                                   ncol(x_test_scale[,continuous_vars, drop = FALSE])))
 
      # Setting new parameters for the spline
@@ -103,6 +107,7 @@ mpsbart <- function(x_train,
      # New_knots
      new_knots <- matrix()
      new_knots <- mapply(min_x,max_x, FUN = function(MIN,MAX){seq(MIN-3*MIN/ndx,MAX+3*MAX/ndx, by = (MAX-MIN)/ndx)})
+     colnames(new_knots) <- continuous_vars
 
      # Creating the natural B-spline for each predictor
      for(i in 1:length(continuous_vars)){
@@ -114,6 +119,8 @@ mpsbart <- function(x_train,
                                                 ord = 4,
                                                 derivs = 0*x_train_scale[,continuous_vars[i], drop = FALSE],outer.ok = TRUE)$design
 
+             # print(dim(as.matrix(B_train_obj)))
+             # print(dim(B_train_arr))
              B_train_arr[,,i] <- as.matrix(B_train_obj)
              # B_test_arr[,,i] <- as.matrix(predict(B_train_obj,newx = x_test_scale[,continuous_vars[i], drop = FALSE]))
              B_test_arr[,,i] <- splines::spline.des(x = x_test_scale[,continuous_vars[i], drop = FALSE],
