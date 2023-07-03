@@ -139,7 +139,7 @@ mpsbart <- function(x_train,
      # Scaling "y"
      if(scale_bool){
         y_scale <- normalize_bart(y = y,a = min_y,b = max_y)
-        tau_b_0 <- 100000*(4*n_tree*(kappa^2))
+        tau_b_0 <- (4*n_tree*(kappa^2))
         tau_b <- tau_mu <- (4*n_tree*(kappa^2))
         # tau_b <- tau_mu <- 0.1
 
